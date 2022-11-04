@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <form class="flex" @submit.prevent>
     <slot
         v-for="current in state.range" 
         :key="current" 
@@ -10,11 +10,11 @@
     >
         {{ current }}
     </slot>
-  </div>
+  </form>
 </template>
 
 <script setup>
-import { ref, computed, reactive, provide } from "vue";
+import { computed, reactive, provide, toRefs } from "vue";
 
 const props = defineProps({
   modelValue: { type: Number },
@@ -41,6 +41,7 @@ function isSelected(index) {
 }
 
 function setHovered(index) {
+  console.log(index, "here we are")
   state.hoveredIndex = index;
 }
 
@@ -49,7 +50,6 @@ const setCurrent = (index) => {
 }
 
 provide('controls', {
-  setCovered,
   isSelected,
   setHovered,
   setCurrent
