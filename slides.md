@@ -90,15 +90,64 @@ h1 {
 
 Hover on the bottom-left corner to see the navigation's controls panel, [learn more](https://sli.dev/guide/navigation.html)
 
+<div>
+
+</div>
 <!-- 
   For simple components like inputs, cards, labels, badges, avatars this may be easy but for complex components like ComboBox, Tabs, File Uploader, Date Pickers this can get complicated
+
+  And here is when Headless components shines.
  -->
 
 ---
 
 # What are headless component?
 
+<v-clicks>
 
+- Unstyled
+- Accessible components
+- Design Systems (sharing components between design systems)
+- Create abstraction for components that behave in the same way
+- No need to override styles
+- integrate with multiple style approaches
+
+</v-clicks>
+
+---
+
+# Resources
+<div class="flex justify-between space-x-8">
+<div class="w-full">
+  <img src="/headlessui.png" class="rounded-md w-full" />
+
+  - [Headless UI](https://headlessui.com/)
+</div>
+<div class="w-full">
+  <img src="/radix.png"  class="rounded-md w-full" />
+
+  - [Radix](https://www.radix-ui.com/)
+</div>
+</div>
+
+<v-clicks>
+
+
+
+</v-clicks>
+
+<!-- 
+  Headless components are normal components 
+
+  https://www.radix-ui.com/
+  - unstyled,
+  - accessible components
+  - Design Systems (specially sharing components between design systems)
+  - Create abstraction for components that behave in the same way
+  - No need to override styles / avoid specificity wars
+  - integrate with css-modules/tailwindcss or whatever css solution
+  - 
+ -->
 ---
 
 # Building a BareRate Component
