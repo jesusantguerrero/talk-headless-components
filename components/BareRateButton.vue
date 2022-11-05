@@ -15,7 +15,9 @@
       @mouseout="setHovered(0)"
      >
       <span class="visuallyhidden">{{current}} Star</span>
-       <slot />
+       <slot>
+          {{ current }}
+        </slot>
   </label>
 </template>
 

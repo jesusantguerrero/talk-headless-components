@@ -1,5 +1,5 @@
 <template>
-  <form class="flex" @submit.prevent>
+  <div class="flex" @submit.prevent>
     <slot
         v-for="current in state.range" 
         :key="current" 
@@ -10,7 +10,8 @@
     >
         {{ current }}
     </slot>
-  </form>
+    {{ current }}
+  </div>
 </template>
 
 <script setup>
@@ -32,8 +33,7 @@ const state = reactive({
 
 // state functions
 function isCovered(index) {
-  return index <= state.hoveredIndex
-  || index <= props.modelValue;
+  return index <= state.hoveredIndex || index <= props.modelValue;
 }
 
 function isSelected(index) {
@@ -41,7 +41,6 @@ function isSelected(index) {
 }
 
 function setHovered(index) {
-  console.log(index, "here we are")
   state.hoveredIndex = index;
 }
 

@@ -10,6 +10,7 @@ info: |
 drawings:
   persist: false
 css: unocss
+hideInToc: true
 ---
 
 # Unveiling the Power of Headless Components in Vue
@@ -30,6 +31,8 @@ The last comment block of each slide will be treated as slide notes. It will be 
 -->
 
 ---
+hideInToc: true
+---
 
 # Jesus Guerrero
 
@@ -49,12 +52,14 @@ The last comment block of each slide will be treated as slide notes. It will be 
 </div>
 
 ---
+hideInToc: true
+---
 
 # Table of Content?
 
 We are going to review the following topics
 
-<v-clicks>
+<!-- <v-clicks>
 
 - **Introduction**
 - **What are headless components**
@@ -64,7 +69,9 @@ We are going to review the following topics
 - **Closing**
 - **Resources** 
 
-</v-clicks>
+</v-clicks> -->
+
+<Toc />
 
 
 <!--
@@ -85,6 +92,8 @@ h1 {
 </style>
 
 ---
+hideInToc: true
+---
 
 # Introduction
 
@@ -93,16 +102,26 @@ Hover on the bottom-left corner to see the navigation's controls panel, [learn m
 <div>
 
 </div>
-<!-- 
-  For simple components like inputs, cards, labels, badges, avatars this may be easy but for complex components like ComboBox, Tabs, File Uploader, Date Pickers this can get complicated
 
-  And here is when Headless components shines.
- -->
+<!--
+While creating applications you will find yourself either doing the same components with the same logic many times with different User Interface(UI) or installing packages with an opinionated design that have a very different look from the design of your app.
+
+For simple components like inputs, cards, labels, badges, avatars this may be easy but for complex components like ComboBox, Tabs, File Uploader, Date Pickers, Step Wizards this can get complicated if the component wasn't created with UI flexibility in mind
+And here is when Headless components come to the rescue.
+-->
 
 ---
 
 # What are headless component?
 
+three images: Structure, Logic / Behavior and Styles
+
+
+---
+
+# Characteristics, Pros and Cons?
+
+<div class="grid grid-cols-2 gap-2">
 <v-clicks>
 
 - Unstyled
@@ -111,8 +130,32 @@ Hover on the bottom-left corner to see the navigation's controls panel, [learn m
 - Create abstraction for components that behave in the same way
 - No need to override styles
 - integrate with multiple style approaches
-
 </v-clicks>
+
+<SimpleCard>
+  <v-click>
+    <ComboboxExample />
+  </v-click>
+
+  <div v-click >
+    <ComboboxExample preset="jschi" />
+  </div>
+
+  <div v-click >
+    <ComboboxExample :custom-colors="true" />
+  </div>
+
+</SimpleCard>
+
+</div>
+
+<!-- 
+
+Unstyled: In plain words, headless components are the ones that handle the Structure, logic and behavior separated from the UI, giving the decision of how the component looks to like to the developer.
+
+can expose values and functions (state and controls) that will allow a child component to control certain parts of it and make UI decisions based on a state value. In other words, they are not attached to the UI but serves as support.
+
+-->
 
 ---
 
@@ -130,12 +173,6 @@ Hover on the bottom-left corner to see the navigation's controls panel, [learn m
 </div>
 </div>
 
-<v-clicks>
-
-
-
-</v-clicks>
-
 <!-- 
   Headless components are normal components 
 
@@ -149,31 +186,19 @@ Hover on the bottom-left corner to see the navigation's controls panel, [learn m
   - 
  -->
 ---
+layout: iframe
+url: https://www.radix-ui.com/
+class: my-cool-content-on-the-right
+---
 
-# Building a BareRate Component
-
-```html {all|2|1-6|9|all}
-// BareRate.vue
-<template>
-  <div>
-    <slot
-        v-for="current in range" 
-        :key="current" 
-        :current="current+1"
-        :selected="isSelected(current+1)"
-        :covered="isCovered(current+1)"
-        :set-hovered="setHovered"
-    >
-        {{ current }}
-    </slot>
-  </div>
-</template>
-```
+# Hola Mundo
+Aqui estamos
 
 ---
 
+# Building a Headless Component
+
 ```html {all|5-8|10-14|15-22|23-25|27-30|all}
-// BareRate.vue
 <script setup>
 import { ref, computed, reactive } from "vue";
 
@@ -205,10 +230,37 @@ function setHovered(current) {
 ```
 
 ---
+hideInToc: true
+---
+
+# Building a BareRate Component
+
+```html {all|2|1-6|9|all}
+<template>
+  <div>
+    <slot
+        v-for="current in range" 
+        :key="current" 
+        :current="current+1"
+        :selected="isSelected(current+1)"
+        :covered="isCovered(current+1)"
+        :set-hovered="setHovered"
+    >
+        {{ current }}
+    </slot>
+  </div>
+</template>
+```
+
+---
+hideInToc: true
+title: Using our headless component
+level: 2
+---
 
 # Using our components
 
-```html
+```html {all|3|5|7-9|11|13|all}
 <BareRate 
   v-model="rating" 
   :count="5" 
@@ -219,20 +271,76 @@ function setHovered(current) {
       @mouseover="setHovered(current)"
       @mouseout="setHovered(0)"
       class="font-bold text-gray-400 transition transform cursor-pointer hover:text-yellow-400 hover:scale-110" 
-      :class="[(selected || covered) ? 'text-yellow-500': 'text-gray-400']"
+      :class="[selected || covered ? 'text-yellow-500': 'text-gray-400']"
     > 
-      <i class="fa fa-star" > </i>
+      <mdi-star />
   </button>
 </BareRate>
 ```
 
 <!-- ./components/Rate.vue -->
 <Rate />
+
 ---
-class: px-20
+hideInToc: true
+title: Refactoring our headless component
+level: 2
 ---
 
-# Using our components
+# Refactoring our Headless Component
+
+<article class="flex">
+<div v-click-hide="5">
+
+```html {all|3|14-16|18-22|all}
+<!-- BareRate.vue -->
+<script setup>
+import { ref, computed, reactive, provide } from "vue";
+ 
+...
+
+// state functions
+function isCovered(current) { ... }
+
+function isSelected(current) { ... }
+
+function setHovered(current) { ... }
+
+const setCurrent = (index) => {
+  emit('update:modelValue', index)
+}
+
+provide('controls', {
+  isSelected,
+  setHovered,
+  setCurrent
+})
+```
+
+</div>
+
+<div v-after >
+
+```html
+<script setup>
+  import { inject } from "vue"
+
+  defineProps({
+    current: { type: Number }
+  })
+
+  const { setCurrent, setHovered } = inject('controls')
+</script>
+```
+</div>
+</article>
+
+---
+class: px-20
+hideInToc: true
+---
+
+# Using our components: improved Rate
 
 ```html
 <BareRate 
@@ -242,8 +350,8 @@ class: px-20
   v-slot:default="{ selected, covered, current }">
     <BareRateButton 
       :current="current"
-      class="font-bold text-gray-400 transition transform cursor-pointer hover:text-yellow-400 hover:scale-110" 
-      :class="[(selected || covered) ? 'text-yellow-500': 'text-gray-400']"
+      class="font-bold transition transform cursor-pointer hover:text-yellow-400 hover:scale-110" 
+      :class="[selected || covered ? 'text-yellow-500': 'text-gray-400']"
     > 
       <i class="fa fa-star" > </i>
   </BareRatebutton>
@@ -254,40 +362,50 @@ class: px-20
 <NewRate />
 
 ---
+hideInToc: true
+title: Reusing the Rate component for Scale
+level: 2
+---
 
-# Reusing our headless to build a new component
+# Reusing our headless to build an Scale
 
-<v-click>
-
-```html
+```html {all|3|5|8-9|all}
 <BareRate 
   v-model="scale" 
   :count="10" 
   class="space-x-2 cursor-pointer" 
   v-slot:default="{ selected, covered, current }">
-    <BareRateButton 
-      :current="current"
-      class="font-bold text-gray-400 transition transform cursor-pointer hover:text-yellow-400 hover:scale-110" 
-      :class="[(selected) ? 'text-yellow-500': 'text-gray-400']"
-    />
+  <BareRateButton
+    :current="current"
+    class="px-3 py-0.5 font-bold border bg-white/5 border-gray-400 rounded-lg cursor-pointer hover:text-red-300" 
+    :class="{'text-red-300 border-red-300 shadow-md ring ring-red-300': selected}"
+  />
 </BareRate>
 ```
-<BareRate 
-  v-model="scale" 
-  :count="10" 
-  class="space-x-2 cursor-pointer" 
-  v-slot:default="{ selected, covered, current }">
-    <BareRateButton 
+<div>
+<h4 class="mt-12 mb-1 font-bold text-white">How likely would you recommend this js-chi meetup to your friends?</h4>
+<BareRate v-model="scale" :count="10" class="space-x-2 cursor-pointer" v-slot:default="{ selected, covered, current }">
+  <BareRateButton 
       :current="current"
-      class="font-bold text-gray-400 transition transform cursor-pointer hover:text-yellow-400 hover:scale-110" 
-      :class="[selected ? 'text-yellow-500': 'text-gray-400']"
-    />       
+      class="px-3 py-0.5 font-bold border bg-white/5 border-gray-400 transition transform rounded-lg cursor-pointer hover:text-red-300" 
+      :class="{'text-red-300 border-red-300 shadow-md ring ring-red-300': selected}"
+  />
 </BareRate>
-
-</v-click>
+</div>
 
 <script setup> 
   import { ref } from "vue"
 
   const scale = ref(0)
 </script>
+
+---
+title: Reusing Rate for Choose one
+level: 2 
+---
+
+# Reusing our headless to build a Single Choice component
+
+
+---
+# Recap and Closing
