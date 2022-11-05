@@ -1,7 +1,5 @@
 ---
-theme: default
-background: https://source.unsplash.com/collection/94734566/1920x1080
-class: 'text-center'
+# theme: default
 highlighter: shiki
 lineNumbers: true
 info: |
@@ -11,20 +9,15 @@ drawings:
   persist: false
 css: unocss
 hideInToc: true
+layout: cover
 ---
 
-# Unveiling the Power of Headless Components in Vue
-Jesus Guerrero
+# Headless Components
 
-<div class="abs-br m-6 flex gap-2">
-  <button @click="$slidev.nav.openInEditor()" title="Open in Editor" class="text-xl icon-btn opacity-50 !border-none !hover:text-white">
-    <carbon:edit />
-  </button>
-  <a href="https://github.com/slidevjs/slidev" target="_blank" alt="GitHub"
-    class="text-xl icon-btn opacity-50 !border-none !hover:text-white">
-    <carbon-logo-github />
-  </a>
-</div>
+<p class="text-xl">
+Unveiling the Power of Headless Components in Vue
+</p>
+
 
 <!--
 The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
@@ -37,14 +30,22 @@ hideInToc: true
 # Jesus Guerrero
 
 <div class="grid grid-cols-2 pt-4 items-center">
-  <div>
-  I’m a system engineer and full-stack developer from the Dominican Republic who is passionate about programming in general, web development and Vue.js. Building with Laravel.
+  <div class=" opacity-80">
+  I’m a system engineer and full-stack developer from the Dominican Republic who is passionate about programming in general, <span class="text-green">Vue.js</span>. Building with <span class="text-red">Laravel</span>.
 
-  When I am not coding, I am singing Bob Marley's songs and blues, Running. 
-  
-  [@jesusntguerrero](https://twitter.com/jesusntguerrero) <br>
-  [jesusantguerrero](https://github.com/jesusantguerrero) <br>
-  [jesusantguerrero.com](https://jesusantguerrero.com) <br>
+  When I am not coding, I am singing <span class="inline-block text-transparent bg-clip-text bg-gradient-to-r via-yellow from-green to-red">Bob Marley's songs</span> and blues, Running. 
+
+  <div class="mt-12 w-min grid grid-cols-[auto_1fr] gap-2" items-center text-white v-click>
+    <mdi-twitter  />
+    <div><a href="https://twitter.com/jesusntguerrero" target="_blank">@jesusntguerrero</a></div>
+    <mdi-dev-to />
+    <div><a href="https://dev.to/jesusantguerrero" target="_blank">jesusantguerrero</a></div>
+    <mdi-github />
+    <div><a href="https://github.com/jesusantguerrero" target="_blank">jesusantguerrero</a></div>
+    <mdi-web />
+    <div><a href="https://jesusantguerrero.com" target="_blank">jesusantguerrero.com</a></div>
+  </div>
+
   </div>
   <div>
     <img src="/headshot.jpeg" class="rounded-md h-72 ml-auto">
@@ -92,16 +93,15 @@ h1 {
 </style>
 
 ---
+layout: center
+class: text-center
 hideInToc: true
 ---
 
-# Introduction
+# Headless Components
 
-Hover on the bottom-left corner to see the navigation's controls panel, [learn more](https://sli.dev/guide/navigation.html)
+the use case
 
-<div>
-
-</div>
 
 <!--
 While creating applications you will find yourself either doing the same components with the same logic many times with different User Interface(UI) or installing packages with an opinionated design that have a very different look from the design of your app.
@@ -114,7 +114,17 @@ And here is when Headless components come to the rescue.
 
 # What are headless component?
 
-three images: Structure, Logic / Behavior and Styles
+<div class="grid grid-cols-3">
+  <div class="text-center">
+    <h4> Structure</h4>
+  </div>
+  <div class="text-center">
+    <h4> Logic & Behavior</h4>
+  </div>
+  <div class="text-center">
+    <h4> Styles </h4>
+  </div>
+</div>
 
 
 ---
