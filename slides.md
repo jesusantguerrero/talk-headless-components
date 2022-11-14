@@ -100,20 +100,76 @@ hideInToc: true
 
 # Headless Components
 
-the use case
+The problem
 
 
 <!--
 While creating applications you will find yourself either doing the same components with the same logic many times with different User Interface(UI) or installing packages with an opinionated design that have a very different look from the design of your app.
 
+-->
+
+---
+hideInToc: true
+---
+
+<div class="grid">
+</div>
+<div class="grid grid-cols-3 gap-3" v-after>
+  <div class="text-center">
+   <div class="h-38 flex items-center bg-gradient-to-br from-blue-600 to-blue-500 px-10 rounded-md">
+     <input class="rounded-md text-sm py-1 px-2" placeholder="Type email" />
+    </div>
+    <small class="mt-2"> Input</small>
+  </div>
+  <div class="text-center">
+    <div class="h-38 flex items-center bg-gradient-to-br from-purple-500 to-blue-200 px-10 rounded-md">
+     <div class="rounded-md text-sm py-1 px-2 bg-white w-full h-32" />
+    </div>
+    <small> Cards</small>
+  </div>
+  <div class="text-center">
+    <div class="h-38 flex items-center bg-gradient-to-br from-blue-600 to-blue-500 px-10 rounded-md">
+     <div class="rounded-full h-10 w-10 bg-white text-sm py-1 px-2 flex items-center justify-center text-blue-300 font-bold">
+      JG
+     </div>
+    </div>
+    <small> Avatars </small>
+  </div>
+</div>
+<div class="bg-white/20 px-4 py-1 rounded-md text-xs">
+  Overwriting Styles
+</div>
+<div class="grid grid-cols-3 mt-4 gap-3" v-click>
+  <div class="text-center">
+    <figure>
+      <img src="/step-wizard.webp" class="rounded-md">
+    </figure>
+    <small class="mt-2"> Step Wizard</small>
+  </div>
+  <div class="text-center">
+    <figure>
+      <img src="/file-uploader2.webp" class="rounded-md">
+    </figure>
+    <h5 class="mt-2"> File Uploader</h5>
+  </div>
+  <div class="text-center">
+    <div class="h-53 flex items-center bg-gradient-to-br from-blue-500 to-blue-200 px-10 rounded-md">
+      <ComboboxExample />
+    </div>
+    <h5 class="mt-2"> Combo Box </h5>
+  </div>
+</div>
+
+<!-- 
 For simple components like inputs, cards, labels, badges, avatars this may be easy but for complex components like ComboBox, Tabs, File Uploader, Date Pickers, Step Wizards this can get complicated if the component wasn't created with UI flexibility in mind
 And here is when Headless components come to the rescue.
--->
+
+ -->
 
 ---
 
 # What are headless component?
-
+<v-click>
 <div class="grid grid-cols-3">
   <div class="text-center">
     <h4> Structure</h4>
@@ -126,34 +182,48 @@ And here is when Headless components come to the rescue.
   </div>
 </div>
 
+<img src="/component-structure.png" class="rounded-md mt-5" />
+</v-click>
+
 
 ---
 
 # Characteristics, Pros and Cons?
 
 <div class="grid grid-cols-2 gap-2">
-<v-clicks>
+
+<div>
+<v-after>
 
 - Unstyled
+
+</v-after>
+
+<v-clicks>
+
 - Accessible components
 - Design Systems (sharing components between design systems)
 - Create abstraction for components that behave in the same way
 - No need to override styles
 - integrate with multiple style approaches
+
 </v-clicks>
 
-<SimpleCard>
-  <v-click>
-    <ComboboxExample />
+</div>
+
+
+<SimpleCard class="items-center bg-gradient-to-br from-blue-500 to-blue-200 mt-10">
+  <v-click at="0">
+      <ComboboxExample />
   </v-click>
 
-  <div v-click >
+  <v-click at="2">
     <ComboboxExample preset="jschi" />
-  </div>
+  </v-click>
 
-  <div v-click >
+  <v-click at="5" >
     <ComboboxExample :custom-colors="true" />
-  </div>
+  </v-click>
 
 </SimpleCard>
 
@@ -166,68 +236,44 @@ Unstyled: In plain words, headless components are the ones that handle the Struc
 can expose values and functions (state and controls) that will allow a child component to control certain parts of it and make UI decisions based on a state value. In other words, they are not attached to the UI but serves as support.
 
 -->
-
+---
+layout: center
+class: text-center
+hideInToc: true
 ---
 
-# Resources
-<div class="flex justify-between space-x-8">
-<div class="w-full">
-  <img src="/headlessui.png" class="rounded-md w-full" />
+# Building our own HC
 
-  - [Headless UI](https://headlessui.com/)
-</div>
-<div class="w-full">
-  <img src="/radix.png"  class="rounded-md w-full" />
-
-  - [Radix](https://www.radix-ui.com/)
-</div>
-</div>
-
-<!-- 
-  Headless components are normal components 
-
-  https://www.radix-ui.com/
-  - unstyled,
-  - accessible components
-  - Design Systems (specially sharing components between design systems)
-  - Create abstraction for components that behave in the same way
-  - No need to override styles / avoid specificity wars
-  - integrate with css-modules/tailwindcss or whatever css solution
-  - 
- -->
+With Vue and The Composition API
 ---
 layout: iframe
-url: https://www.radix-ui.com/
+url: https://tally.so/r/3xJoyn
 class: my-cool-content-on-the-right
----
-
-# Hola Mundo
-Aqui estamos
-
 ---
 
 # Building a Headless Component
 
-```html {all|5-8|10-14|15-22|23-25|27-30|all}
+---
+hideInToc: true
+---
+
+# Building a Headless Component
+
+```html {all|4-7|8-9|12-14|17-19|21-23|all}
 <script setup>
-import { ref, computed, reactive } from "vue";
+import { ref, computed } from "vue";
 
 const props = defineProps({
   modelValue: { type: Number },
   count: { type: Number }
 });
-
-const state = reactive({
-  hoveredIndex: 0,
-  range: computed(() => {
-    return [...Array(props.count).keys()];
-  }),
-})
+const hoveredIndex: ref(0);
+const range: computed(() => [...Array(props.count).keys()]);
 
 // state functions
 function isCovered(current) {
   return props.modelValue >= current 
-  || state.hoveredIndex.value >= current;
+  || hoveredIndex.value >= current;
 }
 
 function isSelected(current) {
@@ -235,7 +281,7 @@ function isSelected(current) {
 }
 
 function setHovered(current) {
-  state.hoveredIndex.value = current;
+  hoveredIndex.value = current;
 }
 ```
 
@@ -245,15 +291,15 @@ hideInToc: true
 
 # Building a BareRate Component
 
-```html {all|2|1-6|9|all}
+```html {all|3-5|6-9|11|all}
 <template>
   <div>
     <slot
-        v-for="current in range" 
-        :key="current" 
-        :current="current+1"
-        :selected="isSelected(current+1)"
-        :covered="isCovered(current+1)"
+        v-for="index in range" 
+        :key="index" 
+        :current="index+1"
+        :selected="isSelected(index+1)"
+        :covered="isCovered(index+1)"
         :set-hovered="setHovered"
     >
         {{ current }}
@@ -292,6 +338,32 @@ level: 2
 <Rate />
 
 ---
+class: px-20
+hideInToc: true
+---
+
+# Using our components: improved Rate
+
+```html
+<BareRate 
+  v-model="rating" 
+  :count="5" 
+  class="space-x-2 cursor-pointer" 
+  v-slot:default="{ selected, covered, current }">
+    <BareRateButton 
+      :current="current"
+      class="font-bold transition transform cursor-pointer hover:text-yellow-400 hover:scale-110" 
+      :class="[selected || covered ? 'text-yellow-500': 'text-gray-400']"
+    > 
+      <i class="fa fa-star" > </i>
+  </BareRatebutton>
+</BareRate>
+```
+
+<!-- ./components/NewRate.vue -->
+<NewRate />
+
+---
 hideInToc: true
 title: Refactoring our headless component
 level: 2
@@ -299,14 +371,13 @@ level: 2
 
 # Refactoring our Headless Component
 
-<article class="flex">
-<div v-click-hide="5">
+<article class="flex space-x-2 justify-between">
+<div>
 
 ```html {all|3|14-16|18-22|all}
 <!-- BareRate.vue -->
 <script setup>
-import { ref, computed, reactive, provide } from "vue";
- 
+import { ref, computed, provide } from "vue";
 ...
 
 // state functions
@@ -332,6 +403,7 @@ provide('controls', {
 <div v-after >
 
 ```html
+<!-- BareRateButton.vue -->
 <script setup>
   import { inject } from "vue"
 
@@ -342,34 +414,21 @@ provide('controls', {
   const { setCurrent, setHovered } = inject('controls')
 </script>
 ```
+
+```html
+ <button 
+    class="flex" 
+    @click="setCurrent(current)" 
+    @mouseover="setHovered(current)"
+    @mouseout="setHovered(0)">
+      <slot>
+          {{ current }}
+      </slot>
+  </button>
+```
 </div>
 </article>
 
----
-class: px-20
-hideInToc: true
----
-
-# Using our components: improved Rate
-
-```html
-<BareRate 
-  v-model="rating" 
-  :count="5" 
-  class="space-x-2 cursor-pointer" 
-  v-slot:default="{ selected, covered, current }">
-    <BareRateButton 
-      :current="current"
-      class="font-bold transition transform cursor-pointer hover:text-yellow-400 hover:scale-110" 
-      :class="[selected || covered ? 'text-yellow-500': 'text-gray-400']"
-    > 
-      <i class="fa fa-star" > </i>
-  </BareRatebutton>
-</BareRate>
-```
-
-<!-- ./components/NewRate.vue -->
-<NewRate />
 
 ---
 hideInToc: true
@@ -414,8 +473,36 @@ title: Reusing Rate for Choose one
 level: 2 
 ---
 
-# Reusing our headless to build a Single Choice component
+# Reusing to build a Single Choice component
 
 
 ---
-# Recap and Closing
+
+# Resources
+<div class="flex justify-between space-x-8">
+<div class="w-full">
+  <img src="/headlessui.png" class="rounded-md w-full" />
+
+  - [Headless UI](https://headlessui.com/)
+</div>
+<div class="w-full">
+  <img src="/radix.png"  class="rounded-md w-full" />
+
+  - [Radix](https://www.radix-ui.com/)
+</div>
+</div>
+
+<!-- 
+  Headless components are normal components 
+
+  https://www.radix-ui.com/
+  - unstyled,
+  - accessible components
+  - Design Systems (specially sharing components between design systems)
+  - Create abstraction for components that behave in the same way
+  - No need to override styles / avoid specificity wars
+  - integrate with css-modules/tailwindcss or whatever css solution
+  - 
+ -->
+
+# Conclusion

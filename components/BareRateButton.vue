@@ -1,24 +1,13 @@
 <template>
-  <label 
+  <button 
     class="flex" 
     @click="setCurrent(current)" 
     @mouseover="setHovered(current)"
     @mouseout="setHovered(0)">
-    <input 
-      :value="current" 
-      :id="`rate${current}`"
-		  type="radio" 
-      name="rating" 
-      class="visuallyhidden"
-      @click="setCurrent(current)" 
-      @mouseover="setHovered(current)"
-      @mouseout="setHovered(0)"
-     >
-      <span class="visuallyhidden">{{current}} Star</span>
        <slot>
           {{ current }}
         </slot>
-  </label>
+  </button>
 </template>
 
 <script setup>
