@@ -315,13 +315,13 @@ const props = defineProps({
   modelValue: { type: Number },
   count: { type: Number }
 });
-const hoveredIndex: ref(0);
+const lastHoveredItem: ref(0);
 const range: computed(() => [...Array(props.count).keys()]);
 
 // state functions
 function isCovered(itemNumber) {
   return props.modelValue >= itemNumber 
-  || hoveredIndex.value >= itemNumber;
+  || lastHoveredItem.value >= itemNumber;
 }
 
 function isSelected(itemNumber) {
@@ -329,7 +329,7 @@ function isSelected(itemNumber) {
 }
 
 function setHovered(itemNumber) {
-  hoveredIndex.value = itemNumber;
+  lastHoveredItem.value = itemNumber;
 }
 ```
 
@@ -342,7 +342,7 @@ hideInToc: true
 
 # Building a BareRate Component
 
-```html {all|3-5|6-9|11|all}
+```html {all|3-5|6-9|all}
 <template>
   <div>
     <slot
@@ -352,9 +352,7 @@ hideInToc: true
         :selected="isSelected(index+1)"
         :covered="isCovered(index+1)"
         :set-hovered="setHovered"
-    >
-        {{ itemNumber }}
-    </slot>
+    />
   </div>
 </template>
 ```
@@ -518,18 +516,6 @@ level: 2
 </script>
 
 ---
-title: Reusing Rate for Choose one
-level: 2 
----
-
-# Wrapping Up
-
-- Provide a way to reuse the logic with customizable the UI.
-
-- Good for sharing complex components across projects.
-
-- Requires wrapper components to use your customized UI across the app
----
 
 # Resources
 <div class="flex justify-between space-x-8">
@@ -557,3 +543,16 @@ level: 2
   - integrate with css-modules/tailwindcss or whatever css solution
   - 
  -->
+
+---
+title: Conclusion
+level: 2 
+---
+
+# Wrapping Up
+
+- Provide a way to reuse the logic with customizable the UI.
+
+- Good for sharing complex components across projects.
+
+- Requires wrapper components to use your customized UI across the app

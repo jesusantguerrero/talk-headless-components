@@ -22,7 +22,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const state = reactive({
-  hoveredIndex: 0,
+  lastHoveredItem: 0,
   range: computed(() => {
     return [...Array(props.count).keys()];
   }),
@@ -30,7 +30,7 @@ const state = reactive({
 
 // state functions
 function isCovered(index) {
-  return index <= state.hoveredIndex || index <= props.modelValue;
+  return index <= state.lastHoveredItem || index <= props.modelValue;
 }
 
 function isSelected(index) {
@@ -38,7 +38,7 @@ function isSelected(index) {
 }
 
 function setHovered(index) {
-  state.hoveredIndex = index;
+  state.lastHoveredItem = index;
 }
 
 const setSelected = (index) => {
