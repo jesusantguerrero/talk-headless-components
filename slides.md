@@ -167,8 +167,11 @@ And here is when Headless components come to the rescue.
  -->
 
 ---
+preload: false
+clicks: 4
+---
 
-# What are headless component?
+# What are headless components?
 <v-click>
 <div class="grid grid-cols-3">
   <div class="text-center">
@@ -185,6 +188,31 @@ And here is when Headless components come to the rescue.
 <img src="/component-structure.png" class="rounded-md mt-5" />
 </v-click>
 
+
+  <div
+    v-motion
+    v-click
+    class="rounded-md bg-green-400 text-white w-57 h-26 py-4 px-1 text-sm"
+    :initial="{ x:35, y: 40, opacity: 0}"
+    :enter="{ y: -125, x: 560, opacity: 1}">
+
+  <div v-click="4">
+
+    - User Defined UI
+    - Expose State Values
+    - Expose Controls (functions)
+      
+  </div>
+      
+  </div>
+
+<!-- 
+
+In plain words, headless components are the ones that handle the Structure, logic and behavior separated from the UI, giving the decision of how the component looks to like to the developer.
+
+can expose values and functions (state and controls) that will allow a child component to control certain parts of it and make UI decisions based on a state value. In other words, they are not attached to the UI but serves as support.
+
+-->
 
 ---
 
@@ -231,9 +259,9 @@ And here is when Headless components come to the rescue.
 
 <!-- 
 
-Unstyled: In plain words, headless components are the ones that handle the Structure, logic and behavior separated from the UI, giving the decision of how the component looks to like to the developer.
+Thats what we call Unstyled
 
-can expose values and functions (state and controls) that will allow a child component to control certain parts of it and make UI decisions based on a state value. In other words, they are not attached to the UI but serves as support.
+Eg. 
 
 -->
 ---
@@ -259,7 +287,27 @@ hideInToc: true
 
 # Building a Headless Component
 
-```html {all|4-7|8-9|12-14|17-19|21-23|all}
+<div>
+
+  Requirements:
+
+  - The user can specify the count of how many stars should display
+  - Should expose the selected state
+  - Should expose the covered state
+
+  To build this component we are going to use TailwindCSS for styling and Vue 3
+
+</div>
+
+<div 
+  class="absolute top-20 left-13 w-250"  
+  v-click="1"
+  v-motion
+  :initial="{ x: -35, y: -40, opacity: 0}"
+  :enter="{ y: 0, x: 0, opacity: 1}"
+>
+
+```html {all|all|4-7|8-9|12-14|17-19|21-23|all}
 <script setup>
 import { ref, computed } from "vue";
 
@@ -271,19 +319,22 @@ const hoveredIndex: ref(0);
 const range: computed(() => [...Array(props.count).keys()]);
 
 // state functions
-function isCovered(current) {
-  return props.modelValue >= current 
-  || hoveredIndex.value >= current;
+function isCovered(itemNumber) {
+  return props.modelValue >= itemNumber 
+  || hoveredIndex.value >= itemNumber;
 }
 
-function isSelected(current) {
-  return props.modelValue == current;
+function isSelected(itemNumber) {
+  return props.modelValue == itemNumber;
 }
 
-function setHovered(current) {
-  hoveredIndex.value = current;
+function setHovered(itemNumber) {
+  hoveredIndex.value = itemNumber;
 }
 ```
+
+</div>
+
 
 ---
 hideInToc: true
@@ -297,12 +348,12 @@ hideInToc: true
     <slot
         v-for="index in range" 
         :key="index" 
-        :current="index+1"
+        :item-number="index+1"
         :selected="isSelected(index+1)"
         :covered="isCovered(index+1)"
         :set-hovered="setHovered"
     >
-        {{ current }}
+        {{ itemNumber }}
     </slot>
   </div>
 </template>
@@ -321,10 +372,10 @@ level: 2
   v-model="rating" 
   :count="5" 
   class="space-x-2 cursor-pointer" 
-  v-slot:default="{ selected, covered, current, setHovered }">
+  v-slot:default="{ selected, covered, itemNumber, setHovered }">
     <button 
-      @click="rating=current" 
-      @mouseover="setHovered(current)"
+      @click="rating=itemNumber" 
+      @mouseover="setHovered(itemNumber)"
       @mouseout="setHovered(0)"
       class="font-bold text-gray-400 transition transform cursor-pointer hover:text-yellow-400 hover:scale-110" 
       :class="[selected || covered ? 'text-yellow-500': 'text-gray-400']"
@@ -349,9 +400,9 @@ hideInToc: true
   v-model="rating" 
   :count="5" 
   class="space-x-2 cursor-pointer" 
-  v-slot:default="{ selected, covered, current }">
+  v-slot:default="{ selected, covered, itemNumber }">
     <BareRateButton 
-      :current="current"
+      :item-number="itemNumber"
       class="font-bold transition transform cursor-pointer hover:text-yellow-400 hover:scale-110" 
       :class="[selected || covered ? 'text-yellow-500': 'text-gray-400']"
     > 
@@ -374,55 +425,53 @@ level: 2
 <article class="flex space-x-2 justify-between">
 <div>
 
-```html {all|3|14-16|18-22|all}
+```html {all|3|13-15|17-21|all}
 <!-- BareRate.vue -->
 <script setup>
 import { ref, computed, provide } from "vue";
 ...
 
 // state functions
-function isCovered(current) { ... }
+function isCovered(itemNumber) { ... }
 
-function isSelected(current) { ... }
+function isSelected(itemNumber) { ... }
 
-function setHovered(current) { ... }
+function setHovered(itemNumber) { ... }
 
-const setCurrent = (index) => {
-  emit('update:modelValue', index)
+const setSelected = (itemNumber) => {
+  emit('update:modelValue', itemNumber)
 }
 
 provide('controls', {
-  isSelected,
   setHovered,
-  setCurrent
+  setSelected
 })
 ```
 
 </div>
 
-<div v-after >
+<div>
 
-```html
+```html {all|3|5-7|9|all}
 <!-- BareRateButton.vue -->
 <script setup>
   import { inject } from "vue"
 
   defineProps({
-    current: { type: Number }
+    itemNumber: { type: Number }
   })
 
-  const { setCurrent, setHovered } = inject('controls')
+  const { setSelected, setHovered } = inject('controls')
 </script>
 ```
 
-```html
- <button 
-    class="flex" 
-    @click="setCurrent(current)" 
-    @mouseover="setHovered(current)"
+```html {2|3-5|5-7|all}
+ <button
+    @click="setSelected(itemNumber)" 
+    @mouseover="setHovered(itemNumber)"
     @mouseout="setHovered(0)">
       <slot>
-          {{ current }}
+          {{ itemNumber }}
       </slot>
   </button>
 ```
@@ -443,9 +492,9 @@ level: 2
   v-model="scale" 
   :count="10" 
   class="space-x-2 cursor-pointer" 
-  v-slot:default="{ selected, covered, current }">
+  v-slot:default="{ selected, itemNumber }">
   <BareRateButton
-    :current="current"
+    :item-number="itemNumber"
     class="px-3 py-0.5 font-bold border bg-white/5 border-gray-400 rounded-lg cursor-pointer hover:text-red-300" 
     :class="{'text-red-300 border-red-300 shadow-md ring ring-red-300': selected}"
   />
@@ -453,9 +502,9 @@ level: 2
 ```
 <div>
 <h4 class="mt-12 mb-1 font-bold text-white">How likely would you recommend this js-chi meetup to your friends?</h4>
-<BareRate v-model="scale" :count="10" class="space-x-2 cursor-pointer" v-slot:default="{ selected, covered, current }">
+<BareRate v-model="scale" :count="10" class="space-x-2 cursor-pointer" v-slot:default="{ selected, covered, itemNumber }">
   <BareRateButton 
-      :current="current"
+      :item-number="itemNumber"
       class="px-3 py-0.5 font-bold border bg-white/5 border-gray-400 transition transform rounded-lg cursor-pointer hover:text-red-300" 
       :class="{'text-red-300 border-red-300 shadow-md ring ring-red-300': selected}"
   />
@@ -473,9 +522,13 @@ title: Reusing Rate for Choose one
 level: 2 
 ---
 
-# Reusing to build a Single Choice component
+# Wrapping Up
 
+- Provide a way to reuse the logic with customizable the UI.
 
+- Good for sharing complex components across projects.
+
+- Requires wrapper components to use your customized UI across the app
 ---
 
 # Resources
@@ -504,5 +557,3 @@ level: 2
   - integrate with css-modules/tailwindcss or whatever css solution
   - 
  -->
-
-# Conclusion

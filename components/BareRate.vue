@@ -1,16 +1,13 @@
 <template>
   <div class="flex" @submit.prevent>
     <slot
-        v-for="current in state.range" 
-        :key="current" 
-        :current="current+1"
-        :selected="isSelected(current+1)"
-        :covered="isCovered(current+1)"
+        v-for="index in state.range" 
+        :key="index" 
+        :itemNumber="index+1"
+        :selected="isSelected(index+1)"
+        :covered="isCovered(index+1)"
         :setHovered="setHovered"
-    >
-        {{ current }}
-    </slot>
-    {{ current }}
+    />
   </div>
 </template>
 
@@ -44,17 +41,13 @@ function setHovered(index) {
   state.hoveredIndex = index;
 }
 
-const setCurrent = (index) => {
+const setSelected = (index) => {
   emit('update:modelValue', index)
 }
 
 provide('controls', {
   isSelected,
   setHovered,
-  setCurrent
+  setSelected
 })
-
-const { modelValue } = toRefs(props)
-provide('value', modelValue);
-
 </script>

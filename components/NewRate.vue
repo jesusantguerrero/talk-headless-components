@@ -1,9 +1,9 @@
 <template>
   <h4 class="mt-4 mb-1 font-bold text-white">How useful is the topic?</h4>
   <article class="flex justify-between">
-     <BareRate v-model="rating" :count="5" class="space-x-2 cursor-pointer" v-slot:default="{ selected, covered, current }">
+     <BareRate v-model="rating" :count="5" class="space-x-2 cursor-pointer" v-slot:default="{ selected, covered, itemNumber }">
        <BareRateButton 
-           :current="current"
+           :item-number="itemNumber"
            class="font-bold transition transform cursor-pointer hover:scale-110" 
            :class="[(selected || covered) ? 'text-yellow-500': 'text-gray-400']"
        > 

@@ -1,11 +1,11 @@
 <template>
   <button 
     class="flex" 
-    @click="setCurrent(current)" 
-    @mouseover="setHovered(current)"
+    @click="setSelected(itemNumber)" 
+    @mouseover="setHovered(itemNumber)"
     @mouseout="setHovered(0)">
        <slot>
-          {{ current }}
+          {{ itemNumber }}
         </slot>
   </button>
 </template>
@@ -14,10 +14,10 @@
   import { inject } from "vue"
 
   defineProps({
-    current: { type: Number }
+    itemNumber: { type: Number }
   })
 
-  const { setCurrent, setHovered, } = inject('controls')
+  const { setSelected, setHovered } = inject('controls')
 </script>
 
 <style lang="css">
