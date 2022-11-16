@@ -1,3 +1,3 @@
-# vue-headless-components
+# [Talk] Headless Components
 
-[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/vue-headless-components)
+Nov 15, 2022 - js-chi meetup
