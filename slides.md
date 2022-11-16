@@ -56,7 +56,7 @@ hideInToc: true
 hideInToc: true
 ---
 
-# Table of Content?
+# Table of Content
 
 We are going to review the following topics
 
@@ -214,6 +214,8 @@ can expose values and functions (state and controls) that will allow a child com
 
 -->
 
+---
+clicks: 5
 ---
 
 # Characteristics, Pros and Cons?
@@ -546,7 +548,8 @@ level: 2
 
 ---
 title: Conclusion
-level: 2 
+level: 1
+hideInToc: true
 ---
 
 # Wrapping Up
